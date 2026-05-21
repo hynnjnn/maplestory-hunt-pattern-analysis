@@ -29,7 +29,11 @@
 단순히 설치기의 쿨타임인 60초(절대적인 시간)로 사이클을 구분할 경우, 조작이 밀릴 때마다 패턴이 어긋나 비교 분석이 불가능해진다. 이를 해결하기 위해 설치기의 입력 시점을 기준으로 사이클을 분할하여 이벤트를 기반으로 사이클을 동기화 하였다.  
 사냥 빌드마다 트리거 키가 다를 수 있기 때문에 분석 시 트리거가 될 키를 입력받아 해당 키 입력 시점을 t=0으로 재설정하여 모든 사이클을 동일 선상에 배치하였다.
 
-![사냥 사이클 동기화](./images/pasted_image_20260326170535.png)
+<div align="center">
+  <img width="876" alt="Image" src="https://github.com/user-attachments/assets/940fb379-1f6e-4600-a30f-37378846167b" />
+  <br/>
+  <sub><b>그림 1.</b> 사이클 동기화 </sub>
+</div>
 
 * **분석 관점:**
   * **시간적 일관성:** 각 사이클의 총 소요 시간 변화를 통해 빌드의 지연 여부를 파악
@@ -38,7 +42,11 @@
 #### ⏱️ [데이터 정제: 디바운스 로직 적용]
 사이클을 동기화 하는 과정에서 트리거 키의 반복 입력으로 인해 사이클이 비정상적으로 많아지는 문제가 발생했다. 연타나 키 홀딩으로 인한 중복 입력 또한 중요한 조작 특성이기 때문에 이를 단순 제거하기 보다 30초의 디바운스 타임을 적용하여 해당 시간 내의 입력을 하나의 사이클 시작점으로 간주하였다.
 
-![디바운스 로직 적용](./images/pasted_image_20260326160555.png)
+<div align="center">
+  <img width="781" height="323" alt="Image" src="https://github.com/user-attachments/assets/d2db354a-9db8-4a54-876f-4e559df63c8a" />
+  <br/>
+  <sub><b>그림 2.</b> 디바운스 로직 적용 결과 </sub>
+</div>
 
 ---
 
@@ -47,12 +55,20 @@
 #### 👀 [사냥 패턴 반복성 확인]
 우선 메이플스토리의 사냥 방식은 직업과 지형에 따라 세부 빌드는 모두 다르지만, 설치기와 주력 스킬 반복이라는 구조적 정형성을 가지고있다. 본 프로젝트의 분석 데이터에서도 이러한 메커니즘이 명확히 관찰되었다.
 
-![사냥 패턴 반복성](./images/pasted_image_20260406181339.png)
+<div align="center">
+  <img width="1892" height="875" alt="Image" src="https://github.com/user-attachments/assets/bc2cea21-f7cc-4866-a7ff-6e2c885bb09f" />
+  <br/>
+  <sub><b>그림 3.</b> 사냥 패턴 시각화 </sub>
+</div>
 
 #### 🗺️ Hunting Pattern per Cycle
 'Hunting Pattern per Cycle' 그래프는 설치기의 입력 시점을 기준으로 각 사이클을 구분 및 동기화하여 패턴을 시각화 한 것이다. 이를 통해 28회에 걸친 서로 다른 시간대의 사이클이 하나의 선처럼 정교하게 중첩되는 것을 확인할 수 있었다. 이는 유저의 사냥이 그저 키보드를 막 누르는 것이 아닌, 정교한 빌드의 반복인 것을 알 수 있다.
 
-![Hunting Pattern per Cycle](./images/pasted_image_20260406180717.png)
+<div align="center">
+  <img width="1885" height="881" alt="Image" src="https://github.com/user-attachments/assets/ad54b654-8ddc-4116-b148-a78e297b88d9" />
+  <br/>
+  <sub><b>그림 4.</b> 키 입력 밀도 시각화 </sub>
+</div>
 
 #### 🔵 Hunting Pattern Density Scatter
 'Hunting Pattern Density Scatter' 그래프는 전체 사이클 데이터를 동일 시간대의 키 입력 빈도에 따라 포인트 크기와 색상을 다르게 시각화 한 것이다.
@@ -60,7 +76,11 @@
 * **설치 및 회수 구간(0s ~ 12s, 58s ~ 60s):** 그래프의 시작과 끝 지점에서 설치 스킬과 이동기(Dash/Jump, Move)키의 밀도가 높은 양상을 보인다. 주력 스킬의 밀도는 비교적 낮다.
 * **주력기 반복 구간(12s ~ 58s):** 제자리 사냥의 특성 상 이동기의 빈도는 급감하고, 일정한 간격으로 높은 밀도의 주력기 포인트들이 관찰된다. 특히 13.4s / 28s / 43.2s / 57.7s에서 밀도가 높은 구간의 주기가 15초 정도로 일정한 것을 볼 수 있다. 이는 몹의 젠 시간인 7-8초의 두 배로, 아란이라는 직업이 사냥을 할 때 a키와 q키를 몹 젠 시간에 맞춰 사용하며 비교적 약한 스킬인 a키를 여러번 누르는 특징을 잘 반영하고 있다.
 
-![Cycle Time Analysis](./images/pasted_image_20260331165959.png)
+<div align="center">
+  <img width="1727" height="849" alt="Image" src="https://github.com/user-attachments/assets/0485ddef-7e11-49c3-9b2b-da678dfe2f76" />
+  <br/>
+  <sub><b>그림 5.</b> 평균 사이클 길이 시각화 </sub>
+</div>
 
 #### ⏱️ Cycle Time Analysis
 또한, 모든 사이클의 길이가 최소 59.09s | 평균 59.69s | 최대 60.39s 로 설치기의 재사용 대기시간인 60초에 수렴하는 것을 볼 수 있었고, 표준편차 0.33s로 낮은 변동폭을 보여주고있다.
@@ -77,13 +97,22 @@
 #### 🤖 [4-1. 가상 매크로 데이터 생성]
 일차원적인 매크로 프로그램은 정해진 스크립트를 일정하게 반복한다. 하지만, 요즘 사용되는 매크로 프로그램은 안티 치트 시스템의 패턴 탐지를 우회하기 위해 의도적으로 불규칙성을 추가하여 작동한다. 이러한 불규칙성을 구현하기 위해 실제 사냥 데이터에서 임의의 사이클을 추출하여 해당 사이클의 입력마다 -0.3초에서 0.3초 사이의 난수를 더해 실제 데이터와 동일한 사이클만큼 연속으로 수행하는 스크립트를 작성하였다.
 
-![가상 매크로 데이터](./images/pasted_image_20260519124234.png)
+<div align="center">
+  <img width="1894" height="898" alt="Image" src="https://github.com/user-attachments/assets/16c60a46-58f8-4d68-95f0-e2c8605fdf70" />
+  <br/>
+  <sub><b>그림 6.</b> 가상 매크로 사냥 패턴 </sub>
+</div>
 
 #### 💻 virtual macro data
 가상 매크로 데이터를 생성하여 동일한 'Hunting Pattern per Cycle' 그래프를 그려보면, 한눈에 보기에도 실제 사냥 데이터보다 극도로 규칙적이며 전체 파형에서 눈에 띄게 튀어나온 돌출 구간이 존재하지 않는 것을 확인할 수 있다.
 
 #### ⚔️ [4-2. 실제 데이터 vs 가상 매크로 데이터 비교]
-![실제 데이터 vs 가상 매크로 데이터](./images/pasted_image_20260519133346.png)
+
+<div align="center">
+  <img width="1279" height="428" alt="Image" src="https://github.com/user-attachments/assets/324076d1-eefe-4207-8986-b4081d13adcc" />
+  <br/>
+  <sub><b>그림 7.</b> 실제 데이터 vs 가상 매크로 데이터 </sub>
+</div>
 
 #### 📝 Actual data vs Virtual macro data
 두 데이터의 DTW 유사도 분석 결과는 다음과 같은 정량적 차이를 보여준다. DTW 유사도 분석에는 fastdtw라이브러리를 사용하였다. 예시 데이터의 경우 28개의 사이클을 가지고 있기 때문에 $_{28}C_{2} = 378$가지의 모든 사이클 쌍을 계산하여 평균값을 도출했다.
