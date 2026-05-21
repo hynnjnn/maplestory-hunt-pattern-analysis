@@ -1,0 +1,16 @@
+analysis_v2_no_trigger.py
+analysis_v3.py
+tmp.py
+similarity_analysis_vis.py
+
+# 파이썬 임시 파일 제외
+__pycache__/
+*.pyc
+
+# 운영체제 생성 파일 제외
+.DS_Store
+Thumbs.db
+
+# 커서 및 VS Code 설정 폴더 제외 (선택)
+.cursor/
+.vscode/
